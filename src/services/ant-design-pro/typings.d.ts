@@ -56,6 +56,12 @@ declare namespace API {
     status?: string;
   };
 
+  type BaseResponse<T> = {
+    code: number;
+    data: T;
+    message: string;
+    description: string;
+  };
   type LoginParams = {
     userAccount?: string;
     userPassword?: string;

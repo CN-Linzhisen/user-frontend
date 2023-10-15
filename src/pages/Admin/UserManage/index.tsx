@@ -25,11 +25,11 @@ const columns: ProColumns<API.CurrentUser>[] = [
     title: '头像',
     search: false,
     dataIndex: 'userAvatar',
-    // render: (_, record) => (
-    //   <div>
-    //     <Image src={record.userAvatar} width={100}/>
-    //   </div>
-    // ),
+    render: (_, record) => (
+      <div>
+        <img src={record.userAvatar} width={50} alt={'用户头像'} />
+      </div>
+    ),
   },
   {
     title: '性别',
@@ -68,11 +68,13 @@ export default () => {
       columns={columns}
       actionRef={actionRef}
       cardBordered
+      // TODO
+      // @ts-ignore
       request={async (params = {}, filter) => {
         // 表单搜索项会从 params 传入，传递给后端接口。
-        const userList = await searchUsers();
+        const res = await searchUsers();
         return {
-          data: userList,
+          data: res.data,
         };
       }}
       rowKey="key"

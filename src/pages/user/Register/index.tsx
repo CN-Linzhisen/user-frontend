@@ -27,11 +27,11 @@ const Register: React.FC = () => {
     }
     try {
       // 注册
-      const id = await register({
+      const res = await register({
         ...values,
         type,
       });
-      if (id > 0) {
+      if (res.code === 0 && res.data > 0) {
         const defaultRegisterSuccessMessage = '注册成功！';
         message.success(defaultRegisterSuccessMessage);
         await fetchUserInfo();
@@ -44,10 +44,11 @@ const Register: React.FC = () => {
         });
         return;
       } else {
-        throw new Error(`register err id = ${id}`);
+        throw new Error(res.description);
       }
     } catch (error) {
       const defaultRegisterFailureMessage = '注册失败，请重试！';
+      // TODO 可添加上 error.message
       message.error(defaultRegisterFailureMessage);
     }
   };
