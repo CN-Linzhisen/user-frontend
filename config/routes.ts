@@ -16,7 +16,6 @@ export default [
     access: 'canAdmin',
     component: './Admin',
     routes: [
-      { path: '/admin/sub-page', name: '二级管理页', icon: 'smile', component: './Welcome' },
       {
         path: '/admin/user-manage',
         name: '用户管理',
@@ -26,7 +25,19 @@ export default [
       { component: './404' },
     ],
   },
-  { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
+  {
+    path: '/center',
+    name: '个人中心',
+    icon: 'smile',
+    routes: [
+      {
+        path: '/center/setting',
+        name: '个人设置',
+        icon: 'smile',
+        component: './Center/Setting',
+      },
+    ],
+  },
   { path: '/', redirect: '/welcome' },
   { component: './404' },
 ];

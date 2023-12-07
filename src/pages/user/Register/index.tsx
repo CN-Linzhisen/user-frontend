@@ -62,8 +62,8 @@ const Register: React.FC = () => {
             },
           }}
           logo={<img alt="logo" src="/logo.svg" />}
-          title="Ant Design"
-          subTitle={'Ant Design 是西湖区最具影响力的 Web 设计规范'}
+          title="用户管理中心"
+          subTitle={'用户管理中心'}
           initialValues={{
             autoLogin: true,
           }}

@@ -1,9 +1,8 @@
-import { DownOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button } from 'antd';
-import { searchUsers } from '@/services/ant-design-pro/api';
+import { deleteUserPOST, searchUsers } from '@/services/ant-design-pro/api';
 import { useRef } from 'react';
+import { useModel } from '@@/plugin-model/useModel';
 
 const columns: ProColumns<API.CurrentUser>[] = [
   {
@@ -34,7 +33,13 @@ const columns: ProColumns<API.CurrentUser>[] = [
   {
     title: '性别',
     dataIndex: 'gender',
+    search: false,
     copyable: true,
+    valueType: 'select',
+    valueEnum: {
+      0: { text: '男', status: 'Default' },
+      1: { text: '女', status: 'Success' },
+    },
   },
   {
     title: '电话',
@@ -47,22 +52,40 @@ const columns: ProColumns<API.CurrentUser>[] = [
     copyable: true,
   },
   {
-    title: '用户状态',
-    dataIndex: 'userStatus',
-  },
-  {
     title: '用户角色',
     dataIndex: 'userRole',
+    search: false,
     valueType: 'select',
     valueEnum: {
       0: { text: '普通用户', status: 'Default' },
       1: { text: '管理员', status: 'Success' },
     },
   },
+  {
+    title: '操作',
+    valueType: 'option',
+    key: 'option',
+    render: (text, record, _, action) => [
+      <a
+        key="editable"
+        onClick={async (key) => {
+          console.log(record.id);
+          console.log(record);
+          await deleteUserPOST({ id: record.id });
+          // 自动刷新
+          action?.reload();
+        }}
+      >
+        删除
+      </a>,
+    ],
+  },
 ];
 
 export default () => {
   const actionRef = useRef<ActionType>();
+  const { initialState } = useModel('@@initialState');
+  const { currentUser } = initialState ?? {};
   return (
     <ProTable<API.CurrentUser>
       columns={columns}
@@ -70,11 +93,16 @@ export default () => {
       cardBordered
       // TODO
       // @ts-ignore
-      request={async (params = {}, filter) => {
+      request={async (params: API.UserQueryParams, filter) => {
         // 表单搜索项会从 params 传入，传递给后端接口。
-        const res = await searchUsers();
+        const res = await searchUsers(params);
+        // @ts-ignore
+        // 返回的全部用户
+        const arr = [...res.data];
+        // 过滤掉当前用户
+        const FilterData = arr.filter((item) => item.id !== currentUser?.id);
         return {
-          data: res.data,
+          data: FilterData,
         };
       }}
       rowKey="key"
@@ -87,16 +115,7 @@ export default () => {
       }}
       dateFormatter="string"
       headerTitle="表格标题"
-      toolBarRender={() => [
-        <Button key="show">查看日志</Button>,
-        <Button key="out">
-          导出数据
-          <DownOutlined />
-        </Button>,
-        <Button type="primary" key="primary">
-          创建应用
-        </Button>,
-      ]}
+      toolBarRender={() => []}
     ></ProTable>
   );
 };

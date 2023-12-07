@@ -68,6 +68,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       }
       // 如果没有登录，重定向到 login
       if (!initialState?.currentUser) {
+        console.log('没有登录');
         history.push(loginPath);
       }
     },
@@ -118,5 +119,5 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * @doc https://umijs.org/docs/max/request#配置
  */
 export const request: RequestConfig = {
-  withCredentials: true,
+  // withCredentials: true,
 };

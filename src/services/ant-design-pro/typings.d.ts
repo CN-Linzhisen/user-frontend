@@ -7,7 +7,7 @@ declare namespace API {
     userName?: string;
     userAccount?: string;
     userAvatar?: string;
-    gender?: string;
+    gender?: number;
     phone?: string;
     email?: string;
     userStatus?: number;
@@ -18,6 +18,10 @@ declare namespace API {
     status?: string;
     type?: string;
     currentAuthority?: string;
+  };
+
+  type DeleteRequest = {
+    id?: number;
   };
 
   type RegisterResult = {
@@ -76,6 +80,19 @@ declare namespace API {
     type?: string;
   };
 
+  type UpdateMyParams = {
+    userName?: string;
+    gender?: number;
+    phone?: string;
+    email?: string;
+  };
+
+  type UserQueryParams = {
+    userName?: string;
+    userAccount?: string;
+    phone?: string;
+    email?: string;
+  };
   type ErrorResponse = {
     /** 业务约定的错误码 */
     errorCode: string;

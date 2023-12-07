@@ -32,7 +32,7 @@ const Welcome: React.FC = () => {
             欢迎使用
           </a>
         </Typography.Text>
-        <CodePreview>yarn add @ant-design/pro-components</CodePreview>
+        <CodePreview>欢迎使用 用户管理平台</CodePreview>
       </Card>
     </PageContainer>
   );
